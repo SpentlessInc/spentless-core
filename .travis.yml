@@ -1,0 +1,15 @@
+language: python
+python: 3.8
+cache: pip
+
+before_install:
+- pip install -r requirements.txt
+
+jobs:
+  include:
+  - stage: "Lint"
+    script: pylint --rcfile=.pylintrc ./core/
+
+branches:
+  only:
+  - master
