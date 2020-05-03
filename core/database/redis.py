@@ -1,6 +1,7 @@
 """This module provides functionality for redis interactions."""
 
 import os
+import json
 import pickle
 
 import aioredis
@@ -74,3 +75,10 @@ class PoolManager:
         """Removes the specified keys. A key is ignored if it does not exist."""
         with await self.pool as con:
             return await con.execute("del", *keys)
+
+    @aioshield
+    async def publish(self, channel, message):
+        """Publish message to provided channel."""
+        message = json.dumps(message)
+        with await self.pool as con:
+            return await con.execute("publish", channel, message)
