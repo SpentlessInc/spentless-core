@@ -55,12 +55,12 @@ class PoolManager:
         async with self.pool.acquire() as con:
             return await con.execute(query, *query_args, timeout=timeout)
 
-    async def fetch(self, query, timeout=5.0):
+    async def fetch(self, query, *query_args, timeout=5.0):
         """Run a query and return the results as a list."""
         async with self.pool.acquire() as con:
-            return await con.fetch(query, timeout=timeout)
+            return await con.fetch(query, *query_args, timeout=timeout)
 
-    async def fetchone(self, query, timeout=5.0):
+    async def fetchone(self, query, *query_args, timeout=5.0):
         """Run a query and return the first row."""
         async with self.pool.acquire() as con:
-            return await con.fetchrow(query, timeout=timeout)
+            return await con.fetchrow(query, *query_args, timeout=timeout)
