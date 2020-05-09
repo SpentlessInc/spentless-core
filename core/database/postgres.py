@@ -55,6 +55,12 @@ class PoolManager:
         async with self.pool.acquire() as con:
             return await con.execute(query, *query_args, timeout=timeout)
 
+    @aioshield
+    async def executemany(self, query, *query_args):
+        """Execute an SQL command for all provided arguments."""
+        async with self.pool.acquire() as con:
+            return await con.executemany(query, *query_args)
+
     async def fetch(self, query, *query_args, timeout=5.0):
         """Run a query and return the results as a list."""
         async with self.pool.acquire() as con:

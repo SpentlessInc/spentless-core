@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 NAME = "sws.core"
-VERSION = "0.2"
+VERSION = "0.3"
 AUTHOR = "Sheet Without Sheet"
 INSTALL_REQUIRES = [
     "aiohttp==3.6.2",
