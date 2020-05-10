@@ -1,5 +1,7 @@
 """This module provides functionality for async http interactions."""
 
+from urllib.parse import urlencode
+
 import aiohttp
 
 from core.decorators import aiowait
@@ -18,9 +20,10 @@ class HTTPRequest:
         """Release gracefully all acquired resources."""
         await self._session.close()
 
-    async def get(self, url, headers=None, params=None):
+    async def get(self, url, headers=None, params=""):
         """Return response from async get http request in json format."""
-        async with self._session.get(url, headers=headers, params=params) as response:
+        url = f"{url}?{urlencode(params)}"
+        async with self._session.get(url, headers=headers) as response:
             return await response.json(), response.status
 
     async def post(self, url, headers=None, body=None):
