@@ -13,7 +13,6 @@ class PoolManager:
         """Initialize connections pool manager from env configs."""
         self.pool = None
 
-        self.dsn = os.environ.get("POSTGRES_DSN")
         self.host = os.environ.get("POSTGRES_HOST")
         self.port = os.environ.get("POSTGRES_PORT")
 
@@ -29,7 +28,6 @@ class PoolManager:
         """Create and initialize pool manager for postgres connections."""
         instance = cls()
         instance.pool = await asyncpg.create_pool(
-            dsn=instance.dsn,
             host=instance.host,
             port=instance.port,
             database=instance.database,
@@ -40,6 +38,20 @@ class PoolManager:
         )
 
         return instance
+
+    @classmethod
+    async def create_connection(cls):
+        """Return initialized connection to postgres."""
+        instance = cls()
+        conn = await asyncpg.connect(
+            host=instance.host,
+            port=instance.port,
+            database=instance.database,
+            user=instance.user,
+            password=instance.password
+        )
+
+        return conn
 
     @aiowait(timeout=10)
     async def close(self):

@@ -39,6 +39,17 @@ class PoolManager:
 
         return instance
 
+    @classmethod
+    async def create_connection(cls):
+        """Return initialized connection to redis."""
+        instance = cls()
+        conn = await aioredis.create_connection(
+            address=instance.address,
+            password=instance.password,
+        )
+
+        return conn
+
     @aiowait(timeout=10)
     async def close(self):
         """Close gracefully all connections in the pool with a timeout."""
