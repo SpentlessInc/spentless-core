@@ -4,7 +4,7 @@ from urllib.parse import urlencode
 
 import aiohttp
 
-from core.decorators import aiowait
+from core.decorators import aiowait, aioshield
 
 
 class HTTPRequest:
@@ -26,6 +26,7 @@ class HTTPRequest:
         async with self._session.get(url, headers=headers) as response:
             return await response.json(), response.status
 
+    @aioshield
     async def post(self, url, headers=None, body=None):
         """Return response from async post http request in json format."""
         async with self._session.post(url, headers=headers, json=body) as response:
