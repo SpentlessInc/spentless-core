@@ -1,14 +1,18 @@
 """This module provides functionality for async functionality with telegram."""
 
+import os
+
 from .http import HTTPRequest
 
 
 class TelegramBot(HTTPRequest):
     """Class that provides async interactions with telegram bot."""
 
-    def __init__(self, token, timeout=60):
+    def __init__(self, timeout=60):
         """Initialize client session for async telegram bot interactions."""
         super().__init__(timeout)
+        token = os.environ["TELEGRAM_BOT_TOKEN"]
+
         self.token = token
         self.api = f"https://api.telegram.org/bot{token}"
 
